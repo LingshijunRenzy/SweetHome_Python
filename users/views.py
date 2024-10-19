@@ -1,3 +1,5 @@
+import json
+
 from django.contrib.auth import authenticate, login, logout
 from django.core.exceptions import ValidationError
 from django.http import JsonResponse
@@ -11,13 +13,20 @@ from users.models import User
 class UserViewJson(View):
     def user_register_json(self, request):
         if request.method == 'POST':
-            username = request.POST.get('username')
-            password = request.POST.get('password')
-            email = request.POST.get('email')
+            try:
+                data = json.loads(request.body)
+                username = data.get('username')
+                password = data.get('password')
+                email = data.get('email')
+            except json.JSONDecodeError:
+                return JsonResponse({'message': 'Invalid Request: Invalid JSON'}, status=400)
+
+            if not username or not password or not email:
+                return JsonResponse({'message': 'Invalid Request: Missing username, password or email'}, status=400)
 
             # 检查用户名是否已存在
             if User.objects.filter(username=username).exists():
-                return JsonResponse({'message': 'Username: ' + username +' already exists'}, status=400)
+                return JsonResponse({'message': 'Invalid Request: Username: ' + username +' already exists'}, status=400)
 
             user = User.objects.create_user(username=username, password=password, email=email)
             user.save()
