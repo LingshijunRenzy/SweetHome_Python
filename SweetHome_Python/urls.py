@@ -23,6 +23,8 @@ urlpatterns = [
 
     path('api/users/', include('users.urls'), name='users'),
 
+    path('api/articles/', include('articles.urls'), name='articles'),
+
     path('doc/schema/', SpectacularAPIView.as_view(), name='schema'),
     path('doc/swagger/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
     path('doc/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc')

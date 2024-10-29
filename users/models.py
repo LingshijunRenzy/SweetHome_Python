@@ -20,6 +20,7 @@ class User(AbstractUser):
     article_count = models.IntegerField(default=0)
     comment_count = models.IntegerField(default=0)
     like_count = models.IntegerField(default=0)
+    star_count = models.IntegerField(default=0)
     follower_count = models.IntegerField(default=0)
     following_count = models.IntegerField(default=0)
 

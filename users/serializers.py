@@ -17,11 +17,32 @@ class UserSerializer(serializers.ModelSerializer):
                   'last_login',
                   'date_joined',
                   'is_authenticated',
-                  'is_anonymous')
+                  'is_anonymous',
+                  'avatar_url',
+                  'article_count',
+                  'comment_count',
+                  'like_count',
+                  'star_count',
+                  'following_count',
+                  'follower_count')
         extra_kwargs = {
             'password': {'write_only': True},
             'nickname': {'required': False}
         }
+        read_only_fields = ('id',
+                            'is_staff',
+                            'is_superuser',
+                            'is_active',
+                            'last_login',
+                            'date_joined',
+                            'is_authenticated',
+                            'is_anonymous',
+                            'article_count',
+                            'comment_count',
+                            'like_count',
+                            'star_count',
+                            'following_count',
+                            'follower_count')
 
     def create(self, validated_data):
         validated_data['password'] = make_password(validated_data['password'])
